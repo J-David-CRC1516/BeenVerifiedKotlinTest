@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BeenVerifiedTest</string>
+    <string name="all_title">Title:</string>
+    <string name="all_description">Description:</string>
+    <string name="all_author">Author:</string>
+    <string name="all_date">Date:</string>
+    <string name="title_activity_maps">Map</string>
+</resources>
