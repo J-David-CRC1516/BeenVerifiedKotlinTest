@@ -8,9 +8,8 @@ import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import com.example.beenverifiedtest.handlers.imageHandler
+import com.example.beenverifiedtest.handlers.ImageHandler
 import com.example.beenverifiedtest.requests.GetImage
-
 
 class ArticlesLayout(
     context: Context?,
@@ -19,7 +18,7 @@ class ArticlesLayout(
     authorData: String,
     dateData: String,
     imgData: String
-) : LinearLayout(context), imageHandler {
+) : LinearLayout(context), ImageHandler {
 
     private lateinit var title: TextView
     private lateinit var description: TextView
@@ -44,13 +43,12 @@ class ArticlesLayout(
     }
 
     private fun fillArticle(titleText: String, descriptionText: String, authorText: String, dateText: String, imgUrl: String){
-        title?.text = titleText
-        description?.text = descriptionText
-        author?.text = authorText
-        date?.text = dateText
+        title.text = titleText
+        description.text = descriptionText
+        author.text = authorText
+        date.text = dateText
 
         getImage(imgUrl)
-
     }
 
     private fun getImage(img: String){
@@ -58,13 +56,10 @@ class ArticlesLayout(
     }
 
     override fun onGetImageOK(result: String) {
-        //println("Image: $result")
-        //val imageBytes = Base64.decode(result, 0)
-        /*val image = BitmapFactory.decodeByteArray(result.toByteArray(), 0, result.toByteArray().size)*/
-        img?.setImageBitmap(StringToBitMap(result))
+        img.setImageBitmap(toBitMap(result))
     }
 
-    fun StringToBitMap(encodedString: String): Bitmap? {
+    private fun toBitMap(encodedString: String): Bitmap? {
         try {
             val encodeByte = Base64.decode(encodedString, Base64.DEFAULT)
             return BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.size)

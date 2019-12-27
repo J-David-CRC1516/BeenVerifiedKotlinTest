@@ -1,6 +1,6 @@
 package com.example.beenverifiedtest.handlers
 
-interface articlesHandler {
+interface ArticlesHandler {
 
     fun onGetArticlesOk(result: String)
 

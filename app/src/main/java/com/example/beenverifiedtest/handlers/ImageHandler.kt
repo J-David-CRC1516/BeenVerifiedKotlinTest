@@ -1,6 +1,6 @@
 package com.example.beenverifiedtest.handlers
 
-interface imageHandler {
+interface ImageHandler {
 
     fun onGetImageOK(result: String)
 

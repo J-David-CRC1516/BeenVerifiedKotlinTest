@@ -6,9 +6,7 @@ import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
 import android.location.*
 import android.os.Bundle
-import android.util.Log
 import android.view.*
-import android.widget.ProgressBar
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.core.content.PermissionChecker
@@ -21,7 +19,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import java.io.IOException
-import kotlin.math.log
 
 
 class MapFragment : Fragment(), OnMapReadyCallback {
@@ -37,7 +34,7 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
 
-        val view: View = inflater.inflate(R.layout.activity_maps, container, false)
+        val view: View = inflater.inflate(R.layout.fragment_maps, container, false)
         mapView =
             view.findViewById<View>(R.id.map) as MapView
         mapView!!.onCreate(savedInstanceState)

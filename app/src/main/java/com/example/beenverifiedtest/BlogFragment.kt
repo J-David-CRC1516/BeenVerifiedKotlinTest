@@ -7,16 +7,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.Fragment
-import com.example.beenverifiedtest.handlers.articlesHandler
+import com.example.beenverifiedtest.handlers.ArticlesHandler
 import com.example.beenverifiedtest.requests.GetArticles
 import org.json.JSONArray
 import org.json.JSONObject
 
 
-class BlogFragment : Fragment(), articlesHandler {
+class BlogFragment : Fragment(), ArticlesHandler {
 
     private var articlesHolder: TableLayout? = null
-    //private var linearLayout: LinearLayout? = null
+    //private var linearLayout: LinearLayout? = null //todo: add again the progress bar
     private var progressBar: ProgressBar? = null
 
     override fun onCreateView(
@@ -42,8 +42,6 @@ class BlogFragment : Fragment(), articlesHandler {
     override fun onGetArticlesOk(result: String) {
         val obj = JSONObject(result)//.get("articles")
         val array: JSONArray = obj.getJSONArray("articles")
-        //println(array[0])
-
         for (i in 0 until  array.length()) {
             createArticle(array[i])
         }
@@ -77,7 +75,8 @@ class BlogFragment : Fragment(), articlesHandler {
     }
 
     override fun onGetArticlesError() {
-        println("Se Jodio")
+        println("Error when retrieving data")
+        //todo: manage error on not connection found and status errors
         //hideProgressBar()
     }
 

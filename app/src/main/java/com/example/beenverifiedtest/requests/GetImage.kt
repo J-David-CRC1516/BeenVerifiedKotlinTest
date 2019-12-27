@@ -2,13 +2,13 @@ package com.example.beenverifiedtest.requests
 
 import android.graphics.BitmapFactory
 import android.os.AsyncTask
-import com.example.beenverifiedtest.handlers.imageHandler
+import com.example.beenverifiedtest.handlers.ImageHandler
 import java.net.URL
 import android.graphics.Bitmap
 import android.util.Base64
 import java.io.ByteArrayOutputStream
 
-class GetImage(private val handler: imageHandler) : AsyncTask<String, String, String>() {
+class GetImage(private val handler: ImageHandler) : AsyncTask<String, String, String>() {
 
 
     override fun doInBackground(vararg p0: String?): String {

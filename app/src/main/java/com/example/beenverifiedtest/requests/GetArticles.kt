@@ -1,14 +1,14 @@
 package com.example.beenverifiedtest.requests
 
 import android.os.AsyncTask
-import com.example.beenverifiedtest.handlers.articlesHandler
+import com.example.beenverifiedtest.handlers.ArticlesHandler
 import java.io.BufferedInputStream
 import java.io.BufferedReader
 import java.net.HttpURLConnection
 import java.net.URL
 import java.io.InputStreamReader
 
-class GetArticles(private val handler: articlesHandler) : AsyncTask<String, Int, String>()  {
+class GetArticles(private val handler: ArticlesHandler) : AsyncTask<String, Int, String>()  {
 
     override fun doInBackground(vararg p0: String?): String {
 
