@@ -52,7 +52,9 @@ class ArticlesLayout(
     }
 
     private fun getImage(img: String){
-        GetImage(this).execute(img)
+        if(img.isNotEmpty()){
+            GetImage(this).execute(img)
+        }
     }
 
     override fun onGetImageOK(result: String) {
@@ -67,10 +69,6 @@ class ArticlesLayout(
             e.message
             return null
         }
-
     }
 
-    override fun onGetImageError() {
-        println("La imagen No funciono")
-    }
 }

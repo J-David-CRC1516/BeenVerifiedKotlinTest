@@ -129,14 +129,15 @@ class MapFragment : Fragment(), OnMapReadyCallback {
         }
 
         if(addressList?.isEmpty()!!){
-            //todo: Implement places not found
+            Toast.makeText(this.requireContext(), getText(R.string.error_placeNotFound), Toast.LENGTH_SHORT).show()
         }else{
+
             map.clear()
             for(i in addressList.indices){
-                val address = addressList[0]
+                val address = addressList[i]
                 val latlng: LatLng? = LatLng(address.latitude, address.longitude)
                 map.addMarker(MarkerOptions().position(latlng!!).title(name))
-                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 99F))
+                map.animateCamera(CameraUpdateFactory.newLatLngZoom(latlng, 0.15f))
             }
         }
 

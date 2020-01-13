@@ -2,6 +2,7 @@ package com.example.beenverifiedtest
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +17,6 @@ import org.json.JSONObject
 class BlogFragment : Fragment(), ArticlesHandler {
 
     private var articlesHolder: TableLayout? = null
-    //private var linearLayout: LinearLayout? = null //todo: add again the progress bar
-    private var progressBar: ProgressBar? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,30 +29,26 @@ class BlogFragment : Fragment(), ArticlesHandler {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         articlesHolder = view.findViewById(R.id.articlesHolder)
-        //linearLayout = view.findViewById(R.id.rootContainer)
-        //showProgressBar()
         getData()
     }
 
     private fun getData(){
+        articlesHolder?.removeAllViews()
         GetArticles(this).execute()
     }
 
     override fun onGetArticlesOk(result: String) {
-        val obj = JSONObject(result)//.get("articles")
+        val obj = JSONObject(result)
         val array: JSONArray = obj.getJSONArray("articles")
         for (i in 0 until  array.length()) {
             createArticle(array[i])
         }
-
-        //hideProgressBar()
-
     }
 
     private fun createArticle(data: Any){
         val dataObj: JSONObject = data as JSONObject
 
-        val tableRow = TableRow(context)
+        val tableRow = LinearLayout(context)
 
         tableRow.setOnClickListener{
             val intent = Intent(this.context, WebActivity::class.java)
@@ -75,19 +70,31 @@ class BlogFragment : Fragment(), ArticlesHandler {
     }
 
     override fun onGetArticlesError() {
-        println("Error when retrieving data")
-        //todo: manage error on not connection found and status errors
-        //hideProgressBar()
-    }
+        val checkConnection = CheckForConnection()
 
-    private fun showProgressBar(){
-        progressBar = ProgressBar(this.context)
-        progressBar!!.layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        //linearLayout?.addView(progressBar)
+        val errorHolder = LinearLayout(context)
+        errorHolder.orientation = LinearLayout.VERTICAL
 
-    }
+        val params: LinearLayout.LayoutParams = LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        params.gravity = Gravity.CENTER
+        errorHolder.layoutParams = params
 
-    private fun hideProgressBar(){
-        progressBar?.visibility = View.GONE
+        val errorText = TextView(context)
+        errorText.setPadding(10,10,10,0)
+        errorText.gravity = Gravity.CENTER
+        if(!checkConnection.checkForConnection(this.requireContext())){
+            errorText.text = getText(R.string.error_getArticlesNoConnection)
+        }else{
+            errorText.text = getText(R.string.error_getArticles)
+        }
+
+        val tryAgainBtn = Button(context)
+        tryAgainBtn.text = getText(R.string.try_again)
+        tryAgainBtn.setOnClickListener{getData()}
+
+        errorHolder.addView(errorText)
+        errorHolder.addView(tryAgainBtn)
+
+        articlesHolder?.addView(errorHolder)
     }
 }

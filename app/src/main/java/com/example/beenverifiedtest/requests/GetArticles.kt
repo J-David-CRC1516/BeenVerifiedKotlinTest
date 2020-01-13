@@ -14,23 +14,26 @@ class GetArticles(private val handler: ArticlesHandler) : AsyncTask<String, Int,
 
         val url = URL("https://www.beenverified.com/articles/index.android.json")
         val httpClient = url.openConnection() as HttpURLConnection
-        if (httpClient.responseCode == HttpURLConnection.HTTP_OK) {
-            try {
-                val stream = BufferedInputStream(httpClient.inputStream)
-                val data: String = readStream(inputStream = stream)
-                return data
-            } catch (e: Exception) {
-                e.printStackTrace()
-            } finally {
-                httpClient.disconnect()
+        try {
+            if (httpClient.responseCode == HttpURLConnection.HTTP_OK) {
+                try {
+                    val stream = BufferedInputStream(httpClient.inputStream)
+                    return readStream(inputStream = stream)
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                } finally {
+                    httpClient.disconnect()
+                }
+            } else {
+                return ("ERROR ${httpClient.responseCode}")
             }
-        } else {
-            println("ERROR ${httpClient.responseCode}")
+        }catch (e: Exception){
+            return "ERROR"
         }
-        return "null"
+        return "ERROR"
     }
 
-    fun readStream(inputStream: BufferedInputStream): String {
+    private fun readStream(inputStream: BufferedInputStream): String {
         val bufferedReader = BufferedReader(InputStreamReader(inputStream))
         val stringBuilder = StringBuilder()
         bufferedReader.forEachLine { stringBuilder.append(it) }
@@ -40,12 +43,11 @@ class GetArticles(private val handler: ArticlesHandler) : AsyncTask<String, Int,
     override fun onPostExecute(result: String?) {
         super.onPostExecute(result)
         if(result!!.isNotEmpty()){
-            if(result != "null"){
-                handler.onGetArticlesOk(result)
-            }else{
+            if(result.startsWith("ERROR")){
                 handler.onGetArticlesError()
+            }else{
+                handler.onGetArticlesOk(result)
             }
-
         }
     }
 }

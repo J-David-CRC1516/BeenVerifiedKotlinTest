@@ -4,5 +4,4 @@ interface ImageHandler {
 
     fun onGetImageOK(result: String)
 
-    fun onGetImageError()
 }
